@@ -15,10 +15,6 @@
 
 ## 1. Executive Summary
 
-*Brief overview of the agent's goal and success rate compared to the baseline chatbot.*
-
-- **Success Rate**: [e.g., 85% on 20 test cases]
-- **Key Outcome**: [e.g., "Our agent solved 40% more multi-step queries than the chatbot baseline by correctly utilizing the Search tool."]
 
 Kết quả thực nghiệm cho thấy ReAct Agent đạt hiệu quả cao hơn chatbot baseline, đặc biệt trong các câu hỏi yêu cầu:
 
@@ -64,8 +60,7 @@ Bảng dưới đây mô tả các công cụ (tools) được tích hợp trong
 - Ba công cụ đầu tiên (`weather_forecast`, `suggest_outfit`, `get_nearby_places_serpapi`) là **các tool cốt lõi** được sử dụng trực tiếp trong quá trình ReAct của agent.
 
 ### 2.3 LLM Providers Used
-- **Primary**: [e.g., GPT-4o]
-- **Secondary (Backup)**: [e.g., Gemini 1.5 Flash]
+
 Team sử dụng GPT-4o-mini để search chính 
 và Gemini 1.5 flash để sử dụng nếu hết tokens 
 ---
@@ -74,10 +69,6 @@ và Gemini 1.5 flash để sử dụng nếu hết tokens
 
 *Analyze the industry metrics collected during the final test run.*
 
-- **Average Latency (P50)**: [e.g., 1200ms]
-- **Max Latency (P99)**: [e.g., 4500ms]
-- **Average Tokens per Task**: [e.g., 350 tokens]
-- **Total Cost of Test Suite**: [e.g., $0.05]
 Độ trễ trung bình ví dụ: 3000ms 
 Độ trễ tối đa : 6000ms 
 Số token trung bình cho mỗi tác vụ: 1000 tokens
@@ -88,10 +79,7 @@ Tổng chi phí của toàn bộ bộ kiểm thử: 0.1 USD
 
 *Deep dive into why the agent failed.*
 
-### Case Study: [e.g., Hallucinated Argument]
-- **Input**: "How much is the tax for 500 in Vietnam?"
-- **Observation**: Agent called `calc_tax(amount=500, region="Asia")` while the tool only accepts 2-letter country codes.
-- **Root Cause**: The system prompt lacked enough `Few-Shot` examples for the tool's strict argument format.
+
 
 
  **Input**:" Tôi muốn đi bơi "
@@ -100,10 +88,6 @@ Tổng chi phí của toàn bộ bộ kiểm thử: 0.1 USD
 ---
 
 ## 5. Ablation Studies & Experiments
-
-### Experiment 1: Prompt v1 vs Prompt v2
-- **Diff**: [e.g., Adding "Always double check the tool arguments before calling".]
-- **Result**: Reduced invalid tool call errors by [e.g., 30%].
 
 Diff:
 Prompt v2 được cải tiến bằng cách:
@@ -127,12 +111,6 @@ You: tôi muốn đi bơi
 Thời tiết hiện tại ở Hà Nội rất nóng với nhiệt độ khoảng 33-34 độ C, tạo điều kiện lý tưởng cho việc đi bơi.
 
 ### Experiment 2 (Bonus): Chatbot vs Agent
-| Case | Chatbot Result | Agent Result | Winner |
-| :--- | :--- | :--- | :--- |
-| Simple Q | Correct | Correct | Draw |
-| Multi-step | Hallucinated | Correct | **Agent** |
-Trường hợpKết quả ChatbotKết quả AgentHệ thống tốt hơnCâu hỏi đơn giảnĐúngĐúngHòaTruy vấn nhiều bướcTrả lời chung chung / thiếu ngữ cảnhPhân tích thời tiết + gợi ý cụ thểAgent
----
 
 
 | Trường hợp | Kết quả Chatbot | Kết quả Agent | Hệ thống tốt hơn |
@@ -141,13 +119,7 @@ Trường hợpKết quả ChatbotKết quả AgentHệ thống tốt hơnCâu h
 | Truy vấn nhiều bước | Trả lời chung chung / thiếu ngữ cảnh | Phân tích thời tiết + gợi ý cụ thể | **Agent** |
 
 
-## 6. Production Readiness Review
 
-*Considerations for taking this system to a real-world environment.*
-
-- **Security**: [e.g., Input sanitization for tool arguments.]
-- **Guardrails**: [e.g., Max 5 loops to prevent infinite billing cost.]
-- **Scaling**: [e.g., Transition to LangGraph for more complex branching.]
 
 ## 6. Production Readiness Review
 
@@ -157,6 +129,7 @@ Phần này đánh giá mức độ sẵn sàng triển khai hệ thống AI Age
 - Thực hiện **kiểm tra và làm sạch đầu vào (input sanitization)** cho tất cả tham số trước khi gọi tool nhằm tránh lỗi định dạng hoặc lạm dụng API.
 - Không cho phép agent truyền trực tiếp dữ liệu do người dùng nhập vào các công cụ bên ngoài mà không qua bước xác thực.
 - Quản lý và bảo mật **API keys** thông qua biến môi trường (`.env`) thay vì hard-code trong mã nguồn.
+
 
 ### Guardrails
 - Áp dụng **giới hạn số vòng lặp ReAct tối đa (ví dụ: 3 loops)** để tránh tình trạng agent lặp vô hạn, gây tăng chi phí và độ trễ.
